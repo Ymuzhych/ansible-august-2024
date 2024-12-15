@@ -1,0 +1,42 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Install apache 
+    ansible.builtin.apt:
+      name: [apache2, tree, wget, git, unzip]
+      # - apache2
+      # - tree
+      # - wget
+      # - git
+      state: present
+      update_cache: yes
+
+  # - name: Install tree
+  #   ansible.builtin.apt:
+  #     name: tree
+  #     state: present
+    notify: Restart service apache  
+#systemctl start apache2
+  # - name: Start service apache
+  #   ansible.builtin.service:
+  #     name: apache2
+  #     state: started
+#systemctl enable apache2
+      # enabled: yes
+
+  # - name: Remove tree
+  #   ansible.builtin.apt:
+  #     name: tree
+  #     state: absent
+
+  # - name: Stop service apache
+  #   ansible.builtin.service:
+  #     name: apache2
+  #     state: stopped    
+  handlers:  
+  - name: Restart service apache
+    ansible.builtin.service:
+      name: apache2
+      state: restarted
+#systemctl enable apache2
+      enabled: yes
